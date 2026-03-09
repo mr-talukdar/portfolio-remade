@@ -1,65 +1,106 @@
-import Image from "next/image";
+import Link from "next/link";
+import { HeroSection } from "@/components/home/HeroSection";
+import { FeaturedProjectCard } from "@/components/home/FeaturedProjectCard";
+import { ProjectCard } from "@/components/home/ProjectCard";
+import { PhilosophyCard } from "@/components/home/PhilosophyCard";
+import { ArticleRow } from "@/components/home/ArticleRow";
+import { SectionContainer } from "@/components/layout/SectionContainer";
+import { AnimatedSection } from "@/components/shared/AnimatedSection";
+import { featuredProject, selectedProjects } from "@/data/projects";
+import { articles } from "@/data/writing";
 
-export default function Home() {
+const philosophyItems = [
+  {
+    icon: "🤖",
+    title: "AI Agent Orchestration",
+    description:
+      "Designing multi-agent systems that solve complex, non-deterministic tasks.",
+  },
+  {
+    icon: "🧠",
+    title: "AI-Native Software Design",
+    description:
+      "Moving beyond chatbots to interfaces that understand intent and context.",
+  },
+  {
+    icon: "💪",
+    title: "Fitness & Human Performance",
+    description:
+      "Leveraging data to optimize the most important machine we own.",
+  },
+  {
+    icon: "⚙️",
+    title: "Developer Tooling",
+    description:
+      "Building the abstractions that make building faster and more reliable.",
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* Hero */}
+      <HeroSection />
+
+      {/* Featured Project */}
+      <SectionContainer className="py-16">
+        <AnimatedSection>
+          <FeaturedProjectCard project={featuredProject} />
+        </AnimatedSection>
+      </SectionContainer>
+
+      {/* Selected Projects */}
+      <SectionContainer className="py-16">
+        <AnimatedSection>
+          <h2 className="mb-8 text-2xl font-bold tracking-tight text-text-primary">
+            Selected Projects
+          </h2>
+        </AnimatedSection>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {selectedProjects.map((project, i) => (
+            <ProjectCard key={project.slug} project={project} index={i} />
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </SectionContainer>
+
+      {/* Builder Philosophy */}
+      <SectionContainer className="py-16">
+        <AnimatedSection>
+          <h2 className="mb-8 text-2xl font-bold tracking-tight text-text-primary">
+            Builder Philosophy
+          </h2>
+        </AnimatedSection>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {philosophyItems.map((item, i) => (
+            <PhilosophyCard key={item.title} {...item} index={i} />
+          ))}
         </div>
-      </main>
-    </div>
+      </SectionContainer>
+
+      {/* Writing */}
+      <SectionContainer className="py-16">
+        <AnimatedSection>
+          <div className="mb-8 flex items-baseline justify-between">
+            <h2 className="text-2xl font-bold tracking-tight text-text-primary">
+              Writing
+            </h2>
+            <Link
+              href="/writing"
+              className="text-sm text-text-secondary transition-colors hover:text-accent"
+            >
+              View all posts →
+            </Link>
+          </div>
+        </AnimatedSection>
+        <p className="mb-6 text-text-secondary">
+          Thoughts on technology, systems, and performance.
+        </p>
+        <div>
+          {articles.map((article, i) => (
+            <ArticleRow key={article.slug} article={article} index={i} />
+          ))}
+        </div>
+      </SectionContainer>
+    </>
   );
 }
